@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<body>
+
+  <style>
+    .container {
+      display: flex;
+    }
+
+    .item {
+      background: #ce8888;
+      flex-basis: 50%;
+      margin: 5px;
+    }
+
+    .fix-div {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+      z-index: 1;
+      background: #ce8888;
+      flex-basis: 50%;
+      margin: 5px;
+    }
+
+    #wrapper {
+      position: relative;
+      z-index: 2;
+      margin: 100% 0 0;
+    }
+
+    .sidenav {
+      height: 100%;
+      width: 160px;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #676b6a;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+
+    .sidenav a {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #FFFFFF;
+      display: block;
+    }
+
+    .sidenav a:hover {
+      color: #f1f1f1;
+    }
+
+    .main {
+      margin-left: 160px;
+      padding: 0px 10px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+  <div class="sidenav">
+    <ul>
+      <li><a href="{{ .RelPermalink }}">Home</a></li>
+      <p>{{ .File.Path }} <br>
+        {{ "" | absURL }}
+      </p>
+
+
+
+
+      {{ range sort (readDir (delimit (slice "content" "") "/")) "Name" }}
+      {{ if not (in .Name ".") }}
+      <li>
+        <a href="{{ .Name }}">{{ .Name }}</a><br>
+      </li>
+
+      {{ end }}
+      {{ end }}
+
+    </ul>
+  </div>
+  <div class="main">
+    {{ block "main" . -}}{{- end }}
+    {{- partial "footer.html" . -}}
+  </div>
+</body>
+</html>
